@@ -22,4 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .async_session import *
+import aiohttp
+from .variables import *
+
+class AsyncSession:
+
+    def __init__(self):
+        self._session = None
+    
+    async def request(self, category: str, nsfw: bool=False, exclude: list=[]):
+        type_parameter = 'nsfw' if nsfw else 'sfw'
+        request_headers = {"exclude": exclude}
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f'{API_URL}/{type_parameter}/{category}', json=request_headers) as request:
+                json_body = await request.json()
+                return json_body
+
+    async def request_many(self, category: str, nsfw: bool=False, exclude: list=[]):
+        type_parameter = 'nsfw' if nsfw else 'sfw'
+        request_headers = {"exclude": exclude}
+        async with aiohttp.ClientSession() as session:
+            async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=request_headers) as request:
+                json_body = await request.json()
+                return json_body

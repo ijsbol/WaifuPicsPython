@@ -22,6 +22,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# boring example code
-def add_one(number):
-    return number + 1
+API_URL = "https://api.waifu.pics"
