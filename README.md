@@ -12,7 +12,7 @@ An asynchronous Python API wrapper for https://waifu.pics.
 from WaifuPicsPython import Waifu
 import asyncio
 
-async def your_command_here():
+async def your_function():
     megumin_image_url = await Waifu().sfw('megumin')
     # returns 1 url as a string
     waifu_images = await Waifu().sfw('waifu', many=True)
@@ -22,7 +22,7 @@ async def your_command_here():
     lewd_nekos = await Waifu().nsfw('neko', many=True)
     # returns 30 nsfw neko urls in a list
 
-asyncio.run(your_command_here())
+asyncio.run(your_function())
 ```
 ## Categories List
 
