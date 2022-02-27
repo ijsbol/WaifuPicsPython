@@ -4,6 +4,9 @@
 An asynchronous Python API wrapper for https://waifu.pics.
 
 
+`pip install WaifuPicsPython`
+
+
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
 
