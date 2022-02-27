@@ -46,11 +46,11 @@ class Waifu:
                 return json_body
 
     async def sfw(self, category, many: bool=False, exclude: list=[]):
-        if category.lower() not in VALID_SFW_REQUESTS: raise f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
+        if category.lower() not in VALID_SFW_REQUESTS: return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
         if not many: return await self._request(category=category, nsfw=False, exclude=exclude)
         else: return await self._request_many(category=category, nsfw=False, exclude=exclude)
 
     async def nsfw(self, category, many: bool=False, exclude: list=[]):
-        if category.lower() not in VALID_NSFW_REQUESTS: raise f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
+        if category.lower() not in VALID_NSFW_REQUESTS: return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
         if not many: return await self._request(category=category, nsfw=True, exclude=exclude)
         else: return await self._request_many(category=category, nsfw=True, exclude=exclude)
