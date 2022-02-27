@@ -35,7 +35,7 @@ class Waifu:
         async with aiohttp.ClientSession() as session:
             async with session.get(f'{API_URL}/{type_parameter}/{category}', json=request_headers) as request:
                 json_body = await request.json()
-                return json_body
+                return json_body['url']
 
     async def _request_many(self, category: str, nsfw: bool=False, exclude: list=[]):
         type_parameter = 'nsfw' if nsfw else 'sfw'
@@ -43,7 +43,7 @@ class Waifu:
         async with aiohttp.ClientSession() as session:
             async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=request_headers) as request:
                 json_body = await request.json()
-                return json_body
+                return json_body['files']
 
     async def sfw(self, category, many: bool=False, exclude: list=[]):
         if category.lower() not in VALID_SFW_REQUESTS: return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
