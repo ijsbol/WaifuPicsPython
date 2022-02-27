@@ -23,3 +23,13 @@ SOFTWARE.
 """
 
 API_URL = "https://api.waifu.pics"
+VALID_SFW_REQUESTS = [
+    'waifu', 'neko', 'shinobu', 'megumin', 'bully', 'cuddle', 
+    'cry', 'hug', 'awoo', 'kiss', 'lick', 'pat', 'smug', 'bonk', 
+    'yeet', 'blush', 'smile', 'wave', 'highfive', 'handhold', 
+    'nom', 'bite', 'glomp', 'slap', 'kill', 'kick', 'happy', 
+    'wink', 'poke', 'dance', 'cringe'
+]
+VALID_NSFW_REQUESTS = [
+    'waifu', 'neko', 'trap', 'blowjob'
+]

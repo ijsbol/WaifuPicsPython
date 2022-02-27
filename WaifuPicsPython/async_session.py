@@ -25,12 +25,11 @@ SOFTWARE.
 import aiohttp
 from .variables import *
 
-class AsyncSession:
-
+class Waifu:
     def __init__(self):
-        self._session = None
+        pass
     
-    async def request(self, category: str, nsfw: bool=False, exclude: list=[]):
+    async def _request(self, category: str, nsfw: bool=False, exclude: list=[]):
         type_parameter = 'nsfw' if nsfw else 'sfw'
         request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
@@ -38,10 +37,20 @@ class AsyncSession:
                 json_body = await request.json()
                 return json_body
 
-    async def request_many(self, category: str, nsfw: bool=False, exclude: list=[]):
+    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=[]):
         type_parameter = 'nsfw' if nsfw else 'sfw'
         request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
             async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=request_headers) as request:
                 json_body = await request.json()
                 return json_body
+
+    async def sfw(self, category, many: bool=False, exclude: list=[]):
+        if category.lower() not in VALID_SFW_REQUESTS: raise f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
+        if not many: return await self._request(category=category, nsfw=False, exclude=exclude)
+        else: return await self._request_many(category=category, nsfw=False, exclude=exclude)
+
+    async def nsfw(self, category, many: bool=False, exclude: list=[]):
+        if category.lower() not in VALID_NSFW_REQUESTS: raise f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
+        if not many: return await self._request(category=category, nsfw=True, exclude=exclude)
+        else: return await self._request_many(category=category, nsfw=True, exclude=exclude)
