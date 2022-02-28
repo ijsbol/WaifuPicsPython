@@ -91,4 +91,3 @@ class Waifu:
         elif many:
             return await self._request_many(category=category, nsfw=True, exclude=exclude)
         return await self._request(category=category, nsfw=True, exclude=exclude)
-        
