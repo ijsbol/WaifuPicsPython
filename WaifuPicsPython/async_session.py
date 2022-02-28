@@ -23,33 +23,35 @@ SOFTWARE.
 """
 
 import aiohttp
-from .variables import *
+from .variables import (
+    API_URL,
+    VALID_SFW_REQUESTS,
+    VALID_NSFW_REQUESTS
+)
 
 class Waifu:
     def __init__(self):
         pass
     
     async def _request(self, category: str, nsfw: bool=False, exclude: list=None):
-        if exclude is None:
-            exclude = []
+        exlude = exclude or []
         type_parameter = 'nsfw' if nsfw else 'sfw'
-        request_headers = {"exclude": exclude}
+        json_request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
-            async with session.get(f'{API_URL}/{type_parameter}/{category}', json=request_headers) as request:
+            async with session.get(f'{API_URL}/{type_parameter}/{category}', json=json_request_headers) as request:
                 json_body = await request.json()
                 return json_body['url']
 
     async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None):
-        if exclude is None:
-            exclude = []
+        exlude = exclude or []
         type_parameter = 'nsfw' if nsfw else 'sfw'
-        request_headers = {"exclude": exclude}
+        json_request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
-            async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=request_headers) as request:
+            async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=json_request_headers) as request:
                 json_body = await request.json()
                 return json_body['files']
 
-    async def sfw(self, category, many: bool=False, exclude: list=None):
+    async def sfw(self, category: str, many: bool=False, exclude: list=None):
         """Request a SFW image from the waifu.pics API.
 
         Args:
@@ -61,15 +63,15 @@ class Waifu:
             str: An image URL of the requested type.
 
         """
-        if exlude is None:
-            exclude = []
+
+        exlude = exclude or []
         if category.lower() not in VALID_SFW_REQUESTS: 
             return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
         elif not many: 
             return await self._request(category=category, nsfw=False, exclude=exclude)
         return await self._request_many(category=category, nsfw=False, exclude=exclude)
 
-    async def nsfw(self, category, many: bool=False, exclude: list=None):
+    async def nsfw(self, category: str, many: bool=False, exclude: list=None):
         """Request a NSFW image from the waifu.pics API.
 
         Args:
@@ -82,8 +84,7 @@ class Waifu:
 
         """
 
-        if exclude is None:
-            exclude = []
+        exlude = exclude or []
         if category.lower() not in VALID_NSFW_REQUESTS: 
             return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
         elif not many: 
