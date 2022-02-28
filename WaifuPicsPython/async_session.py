@@ -28,7 +28,7 @@ from typing import (
     Union,
 )
 
-from .variables import (
+from .constants import (
     API_URL,
     VALID_SFW_REQUESTS,
     VALID_NSFW_REQUESTS,
