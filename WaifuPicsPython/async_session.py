@@ -32,6 +32,9 @@ from .variables import (
     VALID_SFW_REQUESTS,
     VALID_NSFW_REQUESTS,
 )
+from .errors import (
+    InvalidCategoryProvided,
+)
 
 class Waifu:
     """
@@ -40,7 +43,7 @@ class Waifu:
 
     def __init__(self):
         self._session = None
-    
+
     @property
     def _client_session(self) -> aiohttp.ClientSession:
         # Returns the aiohttp.ClientSession() value, creating a new one if None/closed.
@@ -84,7 +87,7 @@ class Waifu:
         """
         exlude = exclude or [] # If None = [], else = exclude
         if category.lower() not in VALID_SFW_REQUESTS: 
-            return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
+            raise InvalidCategoryProvided(f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}")
         elif many:
             return await self._request_many(category=category, nsfw=False, exclude=exclude)
         
@@ -103,7 +106,7 @@ class Waifu:
         """
         exlude = exclude or [] # If None = [], else = exclude
         if category.lower() not in VALID_NSFW_REQUESTS: 
-            return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
+            raise InvalidCategoryProvided(f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}")
         elif many:
             return await self._request_many(category=category, nsfw=True, exclude=exclude)
         
