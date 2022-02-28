@@ -38,11 +38,13 @@ class Waifu:
         self._session = None
     
     def _get_client_session(self):
+        # Returns the aiohttp.ClientSession() value, creating a new one if None/closed.
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession()
         return self._session
     
     async def _request(self, category: str, nsfw: bool=False, exclude: list=None):
+        # Returns the data from the WaifuPics API (when many=False).
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
@@ -52,6 +54,7 @@ class Waifu:
             return json_body['url']
 
     async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None):
+        # Returns the data from the WaifuPics API (when many=True).
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
