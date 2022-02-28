@@ -44,13 +44,13 @@ class WaifuAsync:
 
     @property
     def _client_session(self) -> aiohttp.ClientSession:
-        # Returns the aiohttp.ClientSession() value, creating a new one if None/closed.
+        """Returns the aiohttp.ClientSession() value, creating a new one if None/closed."""
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession()
         return self._session
     
-    async def _request(self, category: str, nsfw: bool=False, exclude: list=None) -> str:
-        # Returns the data from the WaifuPics API (when many=False).
+    async def _request(self, category: str, nsfw: bool = False, exclude: list = None) -> str:
+        """Returns the data from the WaifuPics API (when many=False)."""
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
@@ -60,8 +60,8 @@ class WaifuAsync:
             json_body = await request.json()
             return json_body['url']
 
-    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None) -> list:
-        # Returns the data from the WaifuPics API (when many=True).
+    async def _request_many(self, category: str, nsfw: bool = False, exclude: list = None) -> list:
+        """Returns the data from the WaifuPics API (when many=True)."""
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
@@ -72,7 +72,7 @@ class WaifuAsync:
             json_body = await request.json()
             return json_body['files'] # Returning a list of files
 
-    async def sfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
+    async def sfw(self, category: str, many: bool = False, exclude: list = None) -> Union[str,list]:
         """Request a SFW image from the waifu.pics API.
 
         Args:
@@ -91,10 +91,10 @@ class WaifuAsync:
             raise ValueError(f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}")
         elif many:
             return await self._request_many(category=category, nsfw=False, exclude=exclude)
-        
+
         return await self._request(category=category, nsfw=False, exclude=exclude)
         
-    async def nsfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
+    async def nsfw(self, category: str, many: bool = False, exclude: list = None) -> Union[str,list]:
         """Request a NSFW image from the waifu.pics API.
 
         Args:
@@ -113,5 +113,5 @@ class WaifuAsync:
             raise ValueError(f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}")
         elif many:
             return await self._request_many(category=category, nsfw=True, exclude=exclude)
-        
+
         return await self._request(category=category, nsfw=True, exclude=exclude)

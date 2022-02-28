@@ -44,13 +44,13 @@ class WaifuSync:
 
     @property
     def _client_session(self) -> requests.Session:
-        # Returns the requests.Session() value, creating a new one if None/closed.
+        """Returns the requests.Session() value, creating a new one if None/closed."""
         if self._session is None:
             self._session = requests.Session()
         return self._session
     
-    def _request(self, category: str, nsfw: bool=False, exclude: list=None) -> str:
-        # Returns the data from the WaifuPics API (when many=False).
+    def _request(self, category: str, nsfw: bool = False, exclude: list = None) -> str:
+        """Returns the data from the WaifuPics API (when many=False)."""
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
@@ -60,8 +60,8 @@ class WaifuSync:
             json_body = request.json()
             return json_body['url']
 
-    def _request_many(self, category: str, nsfw: bool=False, exclude: list=None) -> list:
-        # Returns the data from the WaifuPics API (when many=True).
+    def _request_many(self, category: str, nsfw: bool = False, exclude: list = None) -> list:
+        """Returns the data from the WaifuPics API (when many=True)."""
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
@@ -72,7 +72,7 @@ class WaifuSync:
             json_body = request.json()
             return json_body['files'] # Returning a list of files
 
-    def sfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
+    def sfw(self, category: str, many: bool = False, exclude: list = None) -> Union[str,list]:
         """Request a SFW image from the waifu.pics API.
 
         Args:
@@ -91,10 +91,10 @@ class WaifuSync:
             raise ValueError(f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}")
         elif many:
             return self._request_many(category=category, nsfw=False, exclude=exclude)
-        
+
         return self._request(category=category, nsfw=False, exclude=exclude)
         
-    def nsfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
+    def nsfw(self, category: str, many: bool = False, exclude: list = None) -> Union[str,list]:
         """Request a NSFW image from the waifu.pics API.
 
         Args:
@@ -113,5 +113,5 @@ class WaifuSync:
             raise ValueError(f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}")
         elif many:
             return self._request_many(category=category, nsfw=True, exclude=exclude)
-        
+
         return self._request(category=category, nsfw=True, exclude=exclude)
