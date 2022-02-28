@@ -23,5 +23,5 @@ SOFTWARE.
 """
 
 from .async_session import (
-    Waifu
+    Waifu,
 )

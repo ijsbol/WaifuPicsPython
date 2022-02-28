@@ -12,8 +12,9 @@ An asynchronous Python API wrapper for https://waifu.pics.
 
 ### Code example
 ```python
-from WaifuPicsPython import Waifu
 import asyncio
+
+from WaifuPicsPython import Waifu
 
 async def your_function():
     wafiu_pics = Waifu()

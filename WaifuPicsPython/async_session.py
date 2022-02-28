@@ -23,10 +23,14 @@ SOFTWARE.
 """
 
 import aiohttp
+from typing import (
+    Union,
+)
+
 from .variables import (
     API_URL,
     VALID_SFW_REQUESTS,
-    VALID_NSFW_REQUESTS
+    VALID_NSFW_REQUESTS,
 )
 
 class Waifu:
@@ -37,34 +41,37 @@ class Waifu:
     def __init__(self):
         self._session = None
     
-    def _get_client_session(self):
+    @property
+    def _client_session(self) -> aiohttp.ClientSession:
         # Returns the aiohttp.ClientSession() value, creating a new one if None/closed.
         if self._session is None or self._session.closed:
             self._session = aiohttp.ClientSession()
         return self._session
     
-    async def _request(self, category: str, nsfw: bool=False, exclude: list=None):
+    async def _request(self, category: str, nsfw: bool=False, exclude: list=None) -> str:
         # Returns the data from the WaifuPics API (when many=False).
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
-        session = self._get_client_session()
+        session = self._client_session
         async with session.get(f'{API_URL}/{type_parameter}/{category}', json=json_request_headers) as request:
+            request.raise_for_status() # Raising an aiohttp error if status code not 2xx
             json_body = await request.json()
             return json_body['url']
 
-    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None):
+    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None) -> list:
         # Returns the data from the WaifuPics API (when many=True).
         exlude = exclude or [] # If None = [], else = exclude
         type_parameter = 'nsfw' if nsfw else 'sfw'
         json_request_headers = {"exclude": exclude}
-        session = self._get_client_session()
+        session = self._client_session
         # Many requires a post instead of get
         async with session.post(f'{API_URL}/many/{type_parameter}/{category}', json=json_request_headers) as request:
+            request.raise_for_status() # Raising an aiohttp error if status code not 2xx
             json_body = await request.json()
             return json_body['files'] # Returning a list of files
 
-    async def sfw(self, category: str, many: bool=False, exclude: list=None):
+    async def sfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
         """Request a SFW image from the waifu.pics API.
 
         Args:
@@ -80,9 +87,10 @@ class Waifu:
             return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
         elif many:
             return await self._request_many(category=category, nsfw=False, exclude=exclude)
+        
         return await self._request(category=category, nsfw=False, exclude=exclude)
         
-    async def nsfw(self, category: str, many: bool=False, exclude: list=None):
+    async def nsfw(self, category: str, many: bool=False, exclude: list=None) -> Union[str,list]:
         """Request a NSFW image from the waifu.pics API.
 
         Args:
@@ -98,4 +106,5 @@ class Waifu:
             return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
         elif many:
             return await self._request_many(category=category, nsfw=True, exclude=exclude)
+        
         return await self._request(category=category, nsfw=True, exclude=exclude)
