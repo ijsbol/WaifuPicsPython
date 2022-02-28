@@ -30,6 +30,10 @@ from .variables import (
 )
 
 class Waifu:
+    """
+    Represents a way to interact with the waifu.pics API.
+    """
+
     def __init__(self):
         pass
     
@@ -62,9 +66,7 @@ class Waifu:
 
         Returns:
             str: An image URL of the requested type.
-
         """
-
         exlude = exclude or [] # If None = [], else = exclude
         if category.lower() not in VALID_SFW_REQUESTS: 
             return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
@@ -82,9 +84,7 @@ class Waifu:
 
         Returns:
             str: An image URL of the requested type.
-
         """
-
         exlude = exclude or [] # If None = [], else = exclude
         if category.lower() not in VALID_NSFW_REQUESTS: 
             return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
