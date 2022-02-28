@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import aiohttp
+import random
 from typing import (
     Union,
 )
@@ -86,6 +87,9 @@ class Waifu:
             str: An image URL of the requested type.
         """
         exlude = exclude or [] # If None = [], else = exclude
+        if category.lower() == 'random':
+            category = random.choice(VALID_SFW_REQUESTS)
+
         if category.lower() not in VALID_SFW_REQUESTS: 
             raise InvalidCategoryProvided(f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}")
         elif many:
@@ -105,6 +109,9 @@ class Waifu:
             str: An image URL of the requested type.
         """
         exlude = exclude or [] # If None = [], else = exclude
+        if category.lower() == 'random':
+            category = random.choice(VALID_NSFW_REQUESTS)
+
         if category.lower() not in VALID_NSFW_REQUESTS: 
             raise InvalidCategoryProvided(f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}")
         elif many:
