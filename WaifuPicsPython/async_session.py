@@ -29,7 +29,9 @@ class Waifu:
     def __init__(self):
         pass
     
-    async def _request(self, category: str, nsfw: bool=False, exclude: list=[]):
+    async def _request(self, category: str, nsfw: bool=False, exclude: list=None):
+        if exclude is None:
+            exclude = []
         type_parameter = 'nsfw' if nsfw else 'sfw'
         request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
@@ -37,7 +39,9 @@ class Waifu:
                 json_body = await request.json()
                 return json_body['url']
 
-    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=[]):
+    async def _request_many(self, category: str, nsfw: bool=False, exclude: list=None):
+        if exclude is None:
+            exclude = []
         type_parameter = 'nsfw' if nsfw else 'sfw'
         request_headers = {"exclude": exclude}
         async with aiohttp.ClientSession() as session:
@@ -45,12 +49,43 @@ class Waifu:
                 json_body = await request.json()
                 return json_body['files']
 
-    async def sfw(self, category, many: bool=False, exclude: list=[]):
-        if category.lower() not in VALID_SFW_REQUESTS: return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
-        if not many: return await self._request(category=category, nsfw=False, exclude=exclude)
-        else: return await self._request_many(category=category, nsfw=False, exclude=exclude)
+    async def sfw(self, category, many: bool=False, exclude: list=None):
+        """Request a SFW image from the waifu.pics API.
 
-    async def nsfw(self, category, many: bool=False, exclude: list=[]):
-        if category.lower() not in VALID_NSFW_REQUESTS: return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
-        if not many: return await self._request(category=category, nsfw=True, exclude=exclude)
-        else: return await self._request_many(category=category, nsfw=True, exclude=exclude)
+        Args:
+            category (:obj:`str`): What category of image do you want to request.
+            many (:obj:`bool`, optional): Do you want to recieve 30 images instead of one?
+            exclude (:obj:`list`, optional): Image URLs to NOT recieve from the API.
+
+        Returns:
+            str: An image URL of the requested type.
+
+        """
+        if exlude is None:
+            exclude = []
+        if category.lower() not in VALID_SFW_REQUESTS: 
+            return f"Invalid SFW category, must be one of: {VALID_SFW_REQUESTS}"
+        elif not many: 
+            return await self._request(category=category, nsfw=False, exclude=exclude)
+        return await self._request_many(category=category, nsfw=False, exclude=exclude)
+
+    async def nsfw(self, category, many: bool=False, exclude: list=None):
+        """Request a NSFW image from the waifu.pics API.
+
+        Args:
+            category (:obj:`str`): What category of image do you want to request.
+            many (:obj:`bool`, optional): Do you want to recieve 30 images instead of one?
+            exclude (:obj:`list`, optional): Image URLs to NOT recieve from the API.
+
+        Returns:
+            str: An image URL of the requested type.
+
+        """
+
+        if exclude is None:
+            exclude = []
+        if category.lower() not in VALID_NSFW_REQUESTS: 
+            return f"Invalid NSFW category, must be one of: {VALID_NSFW_REQUESTS}"
+        elif not many: 
+            return await self._request(category=category, nsfw=True, exclude=exclude)
+        return await self._request_many(category=category, nsfw=True, exclude=exclude)
