@@ -22,9 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .async_session import (
-    WaifuAsync,
-)
-from .sync_session import (
-    WaifuSync,
-)
+from .async_session import WaifuAsync
+from .sync_session import WaifuSync
+
+__author__ = "Scrumpyy"
+
+__all__ = [
+    "WaifuAsync",
+]
+
+__version__ = "0.2.0"

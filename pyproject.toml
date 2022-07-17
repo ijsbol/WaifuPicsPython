@@ -1,6 +1,52 @@
+[tool.poetry]
+name = "WaifuPicsPython"
+version = "0.2.0"
+description = "An asynchronous API wrapper for https://waifu.pics written in Python."
+authors = ["Scrumpyy <scrumpy@weeb.email>"]
+license = "MIT"
+readme = "README.md"
+
+[project.urls]
+"Homepage" = "https://github.com/Scrumpyy/WaifuPicsPython"
+"Bug Tracker" = "https://github.com/Scrumpyy/WaifuPicsPython/issues"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+black = "^22.6.0"
+flake8 = "^4.0.1"
+flake8-black = "^0.3.3"
+flake8-commas = "^2.1.0"
+flake8-bugbear = "^22.7.1"
+flake8-polyfill = "^1.0.2"
+isort = "^5.10.1"
+mypy-extensions = "^0.4.3"
+pep8-naming = "^0.13.0"
+pytest-cov = "^3.0.0"
+pre-commit = "^2.19.0"
+pytest-asyncio = "^0.18.3"
+
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | venv
+  | mongo-data
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
