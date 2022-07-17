@@ -22,14 +22,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from typing import List
+
+
 API_URL: str = "https://api.waifu.pics"
-VALID_SFW_REQUESTS: str = [
-    'waifu', 'neko', 'shinobu', 'megumin', 'bully', 'cuddle', 
-    'cry', 'hug', 'awoo', 'kiss', 'lick', 'pat', 'smug', 'bonk', 
-    'yeet', 'blush', 'smile', 'wave', 'highfive', 'handhold', 
-    'nom', 'bite', 'glomp', 'slap', 'kill', 'kick', 'happy', 
-    'wink', 'poke', 'dance', 'cringe'
+VALID_SFW_REQUESTS: List[str] = [
+    "waifu",
+    "neko",
+    "shinobu",
+    "megumin",
+    "bully",
+    "cuddle",
+    "cry",
+    "hug",
+    "awoo",
+    "kiss",
+    "lick",
+    "pat",
+    "smug",
+    "bonk",
+    "yeet",
+    "blush",
+    "smile",
+    "wave",
+    "highfive",
+    "handhold",
+    "nom",
+    "bite",
+    "glomp",
+    "slap",
+    "kill",
+    "kick",
+    "happy",
+    "wink",
+    "poke",
+    "dance",
+    "cringe",
 ]
-VALID_NSFW_REQUESTS: str = [
-    'waifu', 'neko', 'trap', 'blowjob'
-]
+VALID_NSFW_REQUESTS: List[str] = ["waifu", "neko", "trap", "blowjob"]
